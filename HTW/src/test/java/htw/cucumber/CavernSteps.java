@@ -86,8 +86,18 @@ public class CavernSteps implements En {
                 incrementCounter(TestContext.batTransportCaverns, game.getPlayerCavern());
             }
         });
+        When("player rests {int} times with wumpus in {word} each time", (Integer times, String wumpusCavern) -> {
+            for (int i=0; i<times; i++) {
+                game.setWumpusCavern(wumpusCavern);
+                game.makeRestCommand().execute();
+                incrementCounter(TestContext.wumpusCaverns, game.getWumpusCavern());
+            }
+        });
         Then("player landed in {word} between {int} and {int} times", (String c, Integer min, Integer max) -> {
             assertThat(zeroIfNull(TestContext.batTransportCaverns.get(c))).isBetween(min, max);
+        });
+        Then("wumpus ended in {word} between {int} and {int} times", (String c, Integer min, Integer max) -> {
+            assertThat(zeroIfNull(TestContext.wumpusCaverns.get(c))).isBetween(min, max);
         });
     }
 
