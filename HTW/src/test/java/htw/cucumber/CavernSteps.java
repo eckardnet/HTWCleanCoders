@@ -66,9 +66,8 @@ public class CavernSteps implements En {
             game.connectCavern("7", "8", HuntTheWumpus.Direction.NORTH);
             game.connectCavern("8", "1", HuntTheWumpus.Direction.NORTH);
         });
-        Given("cavern {word} is connected to cavern {word} going {direction}", (String c1, String c2, HuntTheWumpus.Direction direction) -> {
-            game.connectCavern(c1,c2,direction);
-        });
+        Given("cavern {word} is connected to cavern {word} going {direction}", (String c1, String c2, HuntTheWumpus.Direction direction) ->
+            game.connectCavern(c1,c2,direction));
         When("player rests", () -> game.makeRestCommand().execute());
         Given("player is in cavern {word}", (String c) -> game.setPlayerCavern(c));
         Given("cavern {word} has a pit", (String c) -> game.addPitCavern(c));
@@ -86,6 +85,11 @@ public class CavernSteps implements En {
                 incrementCounter(TestContext.batTransportCaverns, game.getPlayerCavern());
             }
         });
+        When("player rests until killed", () -> {
+            while (!game.getPlayerCavern().equals(game.getWumpusCavern()))
+                game.makeRestCommand().execute();
+
+        });
         When("player rests {int} times with wumpus in {word} each time", (Integer times, String wumpusCavern) -> {
             for (int i=0; i<times; i++) {
                 game.setWumpusCavern(wumpusCavern);
@@ -93,12 +97,11 @@ public class CavernSteps implements En {
                 incrementCounter(TestContext.wumpusCaverns, game.getWumpusCavern());
             }
         });
-        Then("player landed in {word} between {int} and {int} times", (String c, Integer min, Integer max) -> {
-            assertThat(zeroIfNull(TestContext.batTransportCaverns.get(c))).isBetween(min, max);
-        });
-        Then("wumpus ended in {word} between {int} and {int} times", (String c, Integer min, Integer max) -> {
-            assertThat(zeroIfNull(TestContext.wumpusCaverns.get(c))).isBetween(min, max);
-        });
+        Then("player landed in {word} between {int} and {int} times", (String c, Integer min, Integer max) ->
+            assertThat(zeroIfNull(TestContext.batTransportCaverns.get(c))).isBetween(min, max));
+        Then("wumpus ended in {word} between {int} and {int} times", (String c, Integer min, Integer max) ->
+                assertThat(zeroIfNull(TestContext.wumpusCaverns.get(c))).isBetween(min, max));
+        Then("wumpus ended in cavern {word}", (String c) -> assertThat(game.getWumpusCavern()).isEqualTo(c));
     }
 
     private void incrementCounter(Map<String, Integer> counterMap, String cavern) {

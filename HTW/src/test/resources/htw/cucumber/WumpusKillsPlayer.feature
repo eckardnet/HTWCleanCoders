@@ -1,0 +1,16 @@
+Feature: Wumpus kills player
+
+  Background:
+    Given player is in cavern 1
+    And the wumpus is in cavern 2
+
+  Scenario: Player moves to wumpus
+    Given cavern 1 is connected to cavern 2 going east
+    When player moves east
+    Then a PLAYER_MOVES_TO_WUMPUS message is given
+
+  Scenario: Wumpus moves to player
+    Given cavern 2 is connected to cavern 1 going east
+    When player rests until killed
+    Then the wumpus ends in cavern 2
+    And a WUMPUS_MOVES_TO_PLAYER message is given
