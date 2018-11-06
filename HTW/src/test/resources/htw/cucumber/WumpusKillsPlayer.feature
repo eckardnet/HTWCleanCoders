@@ -12,5 +12,5 @@ Feature: Wumpus kills player
   Scenario: Wumpus moves to player
     Given cavern 2 is connected to cavern 1 going east
     When player rests until killed
-    Then the wumpus ends in cavern 2
+    Then wumpus ended in cavern 1
     And a WUMPUS_MOVES_TO_PLAYER message is given

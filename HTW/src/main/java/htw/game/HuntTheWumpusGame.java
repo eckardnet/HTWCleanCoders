@@ -99,8 +99,12 @@ public class HuntTheWumpusGame implements HuntTheWumpus {
     return quiver;
   }
 
-  public Integer getArrowsInCavern(String cavern) {
+  public int getArrowsInCavern(String cavern) {
     return zeroIfNull(arrowsIn.get(cavern));
+  }
+
+  public void setArrowsInCavern(String cavern, int arrows) {
+    arrowsIn.put(cavern, arrows);
   }
 
   private int zeroIfNull(Integer integer) {

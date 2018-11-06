@@ -36,7 +36,8 @@ public interface HuntTheWumpus {
   String getWumpusCavern();
   void setQuiver(int arrows);
   int getQuiver();
-  Integer getArrowsInCavern(String cavern);
+  void setArrowsInCavern(String cavern, int arrows);
+  int getArrowsInCavern(String cavern);
   void connectCavern(String from, String to, Direction direction);
   String findDestination(String cavern, Direction direction);
   HuntTheWumpusGame.Command makeRestCommand();

@@ -102,6 +102,16 @@ public class CavernSteps implements En {
         Then("wumpus ended in {word} between {int} and {int} times", (String c, Integer min, Integer max) ->
                 assertThat(zeroIfNull(TestContext.wumpusCaverns.get(c))).isBetween(min, max));
         Then("wumpus ended in cavern {word}", (String c) -> assertThat(game.getWumpusCavern()).isEqualTo(c));
+        Given("player has {int} arrows in his quiver", (Integer a) -> game.setQuiver(a));
+        When("player shoots {direction}", (HuntTheWumpus.Direction dir) -> game.makeShootCommand(dir).execute());
+        Then("there are {int} arrows left in the players quiver", (Integer a) -> assertThat(game.getQuiver()).isEqualTo(a));
+        Then("there are {int} arrows in cavern {word}", (Integer a, String c) -> assertThat(game.getArrowsInCavern(c)).isEqualTo(a));
+        When("player shoots {direction} {int} times", (HuntTheWumpus.Direction dir, Integer times) -> {
+            for (int i= 0; i < times; i++) {
+                game.makeShootCommand(dir).execute();
+            }
+        });
+        Given("cavern {word} contains {int} arrows", (String c, Integer arrows) -> game.setArrowsInCavern(c, arrows));
     }
 
     private void incrementCounter(Map<String, Integer> counterMap, String cavern) {
